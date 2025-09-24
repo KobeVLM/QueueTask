@@ -3,25 +3,20 @@ import { Button } from '@mui/material';
 import SetTimeOutExample from './components/SetTimeOutExample';
 
 export default function App() {
-  const [mainQueue, setMainQueue] = useState([]);
-  const [queue1, setQueue1] = useState([]);
-  const [queue2, setQueue2] = useState([]);
-  const [queue3, setQueue3] = useState([]);
-  const [highQueue, setHighQueue] = useState([]);
+  // State arrays to store tasks for each queue
+  const [mainQueue, setMainQueue] = useState([]);  // Holds new tasks before distribution
+  const [queue1, setQueue1] = useState([]);        // Regular priority queue 1
+  const [queue2, setQueue2] = useState([]);        // Regular priority queue 2
+  const [queue3, setQueue3] = useState([]);        // Regular priority queue 3
+  const [highQueue, setHighQueue] = useState([]);  // High priority queue
   
-  // State to track processing status for each queue
-  // Simplified: no tokens; beginner-friendly approach.
-
-  // numbers that must always go to High Priority
-  // Fibonacci numbers up to 100 (for demo purposes)
-  // To get ~20% high priority numbers from 1-100, pick about 20 numbers.
-  // Choose numbers spread across the range for better distribution.
+  // Array of numbers that should be treated as high priority
   const HIGH_PRIORITY_NUMBERS = [
     3, 7, 12, 16, 21, 25, 30, 34, 39, 43,
     48, 52, 57, 61, 66, 70, 75, 79, 84, 88
   ];
 
-  // Helper function to check if a number is high priority
+  // Check if a number should go to high priority queue
   function isHighPriorityNumber(number) {
     for (let i = 0; i < HIGH_PRIORITY_NUMBERS.length; i++) {
       if (HIGH_PRIORITY_NUMBERS[i] === number) {
@@ -31,7 +26,7 @@ export default function App() {
     return false;
   }
 
-  // Helper function to display numbers with red color for high priority
+  // Display queue contents with red styling for high priority numbers
   function displayQueue(queue, queueName) {
     if (queue.length === 0) {
       return queueName + "";
@@ -41,6 +36,7 @@ export default function App() {
     for (let i = 0; i < queue.length; i++) {
       const number = queue[i];
       if (isHighPriorityNumber(number)) {
+        // High priority numbers are displayed in red and bold
         numbersDisplay.push(
           <span style={{ color: "red", fontWeight: "bold" }}>
             {number}
@@ -63,83 +59,90 @@ export default function App() {
     );
   }
 
-  // --- BUTTON HANDLERS ---
+  // Button handler: Add Random Task
+  // Generates a random number (1-100) and adds it to the main queue
   function handleRandom() {
-    const rand = Math.floor(Math.random() * 100) + 1;
-    // Create a copy of the current queue and add the new number
-    const newQueue = mainQueue.slice(); // copy the array
-    newQueue.push(rand); // add new number to the end
-    setMainQueue(newQueue);
+    const rand = Math.floor(Math.random() * 100) + 1;  // Generate random number 1-100
+    const newQueue = mainQueue.slice();  // Create a copy of current main queue
+    newQueue.push(rand);  // Add new random number to end of queue
+    setMainQueue(newQueue);  // Update state with new queue
   }
 
+  // Button handler: Admit Task 
+  // Takes first task from main queue and distributes it to appropriate processing queue
   function handleAddTask() {
-    if (mainQueue.length === 0) return; // no tasks to add
+    if (mainQueue.length === 0) return;  // Exit if no tasks to process
 
-    // Get the first number from main queue
-    const firstNumber = mainQueue[0];
+    const firstNumber = mainQueue[0];  // Get the first task (FIFO - First In, First Out)
     
-    // Remove the first number from main queue
-    const newMainQueue = mainQueue.slice(1); // copy from position 1 to end
-    setMainQueue(newMainQueue);
+    // Remove the first task from main queue
+    const newMainQueue = mainQueue.slice(1);  // Create new array starting from index 1
+    setMainQueue(newMainQueue);  // Update main queue state
 
-    // Check if the number should go to high priority
+    // Check if task should go to high priority queue
     let isHighPriority = false;
     for (let i = 0; i < HIGH_PRIORITY_NUMBERS.length; i++) {
       if (HIGH_PRIORITY_NUMBERS[i] === firstNumber) {
         isHighPriority = true;
-        break;
+        break;  // Found match, exit loop early
       }
     }
 
-    // Use the helper function instead
+    // Route task to appropriate queue based on priority
     if (isHighPriorityNumber(firstNumber)) {
-      // Add to high priority queue
-      const newHighQueue = highQueue.slice(); // copy the array
-      newHighQueue.push(firstNumber); // add to the end
-      setHighQueue(newHighQueue);
+      // High priority: Add to high priority queue
+      const newHighQueue = highQueue.slice();  // Copy current high priority queue
+      newHighQueue.push(firstNumber);  // Add task to end of queue
+      setHighQueue(newHighQueue);  // Update high priority queue state
     } else {
-      // Find the shortest normal queue
-      let shortest = 1; // assume queue 1 is shortest
+      // Regular priority: Find shortest regular queue for load balancing
+      let shortest = 1;  // Start by assuming queue1 is shortest
       if (queue2.length < queue1.length) {
-        shortest = 2;
+        shortest = 2;  // Queue2 is shorter than queue1
       }
       if (queue3.length < queue1.length && queue3.length < queue2.length) {
-        shortest = 3;
+        shortest = 3;  // Queue3 is shortest of all
       }
 
-      // Add to the shortest queue
+      // Add task to the shortest regular queue
       if (shortest === 1) {
-        const newQueue1 = queue1.slice(); // copy the array
-        newQueue1.push(firstNumber); // add to the end
-        setQueue1(newQueue1);
+        const newQueue1 = queue1.slice();  // Copy queue1
+        newQueue1.push(firstNumber);  // Add task to end
+        setQueue1(newQueue1);  // Update queue1 state
       } else if (shortest === 2) {
-        const newQueue2 = queue2.slice(); // copy the array
-        newQueue2.push(firstNumber); // add to the end
-        setQueue2(newQueue2);
+        const newQueue2 = queue2.slice();  // Copy queue2
+        newQueue2.push(firstNumber);  // Add task to end
+        setQueue2(newQueue2);  // Update queue2 state
       } else {
-        const newQueue3 = queue3.slice(); // copy the array
-        newQueue3.push(firstNumber); // add to the end
-        setQueue3(newQueue3);
+        const newQueue3 = queue3.slice();  // Copy queue3
+        newQueue3.push(firstNumber);  // Add task to end
+        setQueue3(newQueue3);  // Update queue3 state
       }
     }
   }
 
-  // NEW: All timed removal handled by <SetTimeOutExample /> progress component.
-  // When progress completes, we remove head element and bump its token so the
-  // bar restarts for the next head. Adding tasks to tail will not remount the
-  // component (stable key uses token, not queue length), so progress continues.
-
+  // TASK DELETION LOGIC: These functions handle automatic task removal
+  // Each function is called when the SetTimeOutExample progress bar completes
+  // They remove the FIRST task (head) from each queue using slice(1)
+  
+  // High Priority Queue: Remove completed task (first in line)
   const handleHighComplete = () => {
-    setHighQueue(prev => prev.slice(1));
+    setHighQueue(prev => prev.slice(1));  // Remove index 0, keep rest of array
   };
+  
+  // Regular Queue 1: Remove completed task (first in line)
   const handleQ1Complete = () => {
-    setQueue1(prev => prev.slice(1));
+    setQueue1(prev => prev.slice(1));  // Remove index 0, keep rest of array
   };
+  
+  // Regular Queue 2: Remove completed task (first in line)
   const handleQ2Complete = () => {
-    setQueue2(prev => prev.slice(1));
+    setQueue2(prev => prev.slice(1));  // Remove index 0, keep rest of array
   };
+  
+  // Regular Queue 3: Remove completed task (first in line)
   const handleQ3Complete = () => {
-    setQueue3(prev => prev.slice(1));
+    setQueue3(prev => prev.slice(1));  // Remove index 0, keep rest of array
   };
 
   return (
@@ -164,8 +167,6 @@ export default function App() {
           height: "100vh"
         }}>
           
-          
-          {/* High Priority Queue */}
           <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
             <h3>High Priority Queue 1</h3>
             <div>
@@ -187,7 +188,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Queue 1 */}
           <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
             <h3>Regular Queue 2</h3>
             <div>
@@ -209,7 +209,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Queue 2 */}
           <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
             <h3>Regular Queue 3</h3>
             <div>
@@ -231,7 +230,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Queue 3 */}
           <div style={{ height: "25%", display: "flex", flexDirection: "column" }}>
             <h3>Regular Queue 4</h3>
             <div>
@@ -254,7 +252,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Main Content Area */}
         <div style={{ 
           flex: 1, 
           padding: "20px",
