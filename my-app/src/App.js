@@ -162,262 +162,89 @@ export default function App() {
             paddingBottom: "10px"
           }}>Processing Queues</h2>
           
-          {/* High Priority Queue - Queue 1 */}
-          <div style={{ 
-            marginBottom: "20px", 
-            padding: "20px", 
-            backgroundColor: "#fff5f5", 
-            borderRadius: "12px", 
-            border: "3px solid #dc3545",
-            boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-          }}>
-            <h3 style={{ 
-              margin: "0 0 15px 0", 
-              color: "#dc3545", 
-              fontSize: "20px",
-              textAlign: "center",
-              fontWeight: "bold"
-            }}>🔴 HIGH PRIORITY</h3>
-            <div style={{ 
-              fontSize: "16px", 
-              fontWeight: "500",
-              minHeight: "40px",
-              padding: "10px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #dc3545"
-            }}>
+          {/* High Priority Queue */}
+          <div style={{ marginBottom: "30px", paddingBottom: "20px", borderBottom: "1px solid #ccc" }}>
+            <h3>High Priority Queue 1</h3>
+            <div>
               {highQueue.length === 0 ? (
-                <span style={{ color: "#6c757d", fontStyle: "italic" }}>Queue is empty</span>
+                <span>Queue is empty</span>
               ) : (
                 displayQueue(highQueue, "")
               )}
             </div>
-            
-            {/* Duration section for High Priority Queue */}
-            <div style={{ marginTop: "15px" }}>
-              <h4 style={{ 
-                margin: "0 0 10px 0", 
-                color: "#dc3545", 
-                fontSize: "14px",
-                textAlign: "center",
-                fontWeight: "bold"
-              }}>Duration</h4>
-              <div style={{ 
-                backgroundColor: "white",
-                borderRadius: "8px",
-                border: "1px solid #dc3545",
-                padding: "8px",
-                minHeight: "20px"
-              }}>
+            <div>
+              <h4>Duration</h4>
+              <div>
                 {highQueue.length > 0 ? (
                   <SetTimeOutExample onComplete={handleHighComplete} />
                 ) : (
-                  <div style={{ 
-                    height: "20px", 
-                    backgroundColor: "#f0f0f0", 
-                    borderRadius: "4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "12px",
-                    color: "#666"
-                  }}>No tasks processing</div>
+                  <div>No tasks processing</div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Regular Priority Queue 1 */}
-          <div style={{ 
-            marginBottom: "20px", 
-            padding: "20px", 
-            backgroundColor: "#f8f9fa", 
-            borderRadius: "12px", 
-            border: "2px solid #6c757d",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
-          }}>
-            <h3 style={{ 
-              margin: "0 0 15px 0", 
-              color: "#495057", 
-              fontSize: "18px",
-              textAlign: "center",
-              fontWeight: "bold"
-            }}>⚪ QUEUE 1</h3>
-            <div style={{ 
-              fontSize: "16px",
-              minHeight: "40px",
-              padding: "10px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #dee2e6"
-            }}>
+          {/* Queue 1 */}
+          <div style={{ marginBottom: "30px", paddingBottom: "20px", borderBottom: "1px solid #ccc" }}>
+            <h3>Regular Queue 2</h3>
+            <div>
               {queue1.length === 0 ? (
-                <span style={{ color: "#6c757d", fontStyle: "italic" }}>Queue is empty</span>
+                <span>Queue is empty</span>
               ) : (
                 displayQueue(queue1, "")
               )}
             </div>
-            
-            {/* Duration section for Queue 1 */}
-            <div style={{ marginTop: "15px" }}>
-              <h4 style={{ 
-                margin: "0 0 10px 0", 
-                color: "#495057", 
-                fontSize: "14px",
-                textAlign: "center",
-                fontWeight: "bold"
-              }}>Duration</h4>
-              <div style={{ 
-                backgroundColor: "white",
-                borderRadius: "8px",
-                border: "1px solid #dee2e6",
-                padding: "8px",
-                minHeight: "20px"
-              }}>
+            <div>
+              <h4>Duration</h4>
+              <div>
                 {queue1.length > 0 ? (
                   <SetTimeOutExample onComplete={handleQ1Complete} />
                 ) : (
-                  <div style={{ 
-                    height: "20px", 
-                    backgroundColor: "#f0f0f0", 
-                    borderRadius: "4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "12px",
-                    color: "#666"
-                  }}>No tasks processing</div>
+                  <div>No tasks processing</div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Regular Priority Queue 2 */}
-          <div style={{ 
-            marginBottom: "20px", 
-            padding: "20px", 
-            backgroundColor: "#f8f9fa", 
-            borderRadius: "12px", 
-            border: "2px solid #6c757d",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
-          }}>
-            <h3 style={{ 
-              margin: "0 0 15px 0", 
-              color: "#495057", 
-              fontSize: "18px",
-              textAlign: "center",
-              fontWeight: "bold"
-            }}>⚪ QUEUE 2</h3>
-            <div style={{ 
-              fontSize: "16px",
-              minHeight: "40px",
-              padding: "10px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #dee2e6"
-            }}>
+          {/* Queue 2 */}
+          <div style={{ marginBottom: "30px", paddingBottom: "20px", borderBottom: "1px solid #ccc" }}>
+            <h3>Regular Queue 2</h3>
+            <div>
               {queue2.length === 0 ? (
-                <span style={{ color: "#6c757d", fontStyle: "italic" }}>Queue is empty</span>
+                <span>Queue is empty</span>
               ) : (
                 displayQueue(queue2, "")
               )}
             </div>
-            
-            {/* Duration section for Queue 2 */}
-            <div style={{ marginTop: "15px" }}>
-              <h4 style={{ 
-                margin: "0 0 10px 0", 
-                color: "#495057", 
-                fontSize: "14px",
-                textAlign: "center",
-                fontWeight: "bold"
-              }}>Duration</h4>
-              <div style={{ 
-                backgroundColor: "white",
-                borderRadius: "8px",
-                border: "1px solid #dee2e6",
-                padding: "8px",
-                minHeight: "20px"
-              }}>
+            <div>
+              <h4>Duration</h4>
+              <div>
                 {queue2.length > 0 ? (
                   <SetTimeOutExample onComplete={handleQ2Complete} />
                 ) : (
-                  <div style={{ 
-                    height: "20px", 
-                    backgroundColor: "#f0f0f0", 
-                    borderRadius: "4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "12px",
-                    color: "#666"
-                  }}>No tasks processing</div>
+                  <div>No tasks processing</div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Regular Priority Queue 3 */}
-          <div style={{ 
-            marginBottom: "20px", 
-            padding: "20px", 
-            backgroundColor: "#f8f9fa", 
-            borderRadius: "12px", 
-            border: "2px solid #6c757d",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
-          }}>
-            <h3 style={{ 
-              margin: "0 0 15px 0", 
-              color: "#495057", 
-              fontSize: "18px",
-              textAlign: "center",
-              fontWeight: "bold"
-            }}>⚪ QUEUE 3</h3>
-            <div style={{ 
-              fontSize: "16px",
-              minHeight: "40px",
-              padding: "10px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              border: "1px solid #dee2e6"
-            }}>
+          {/* Queue 3 */}
+          <div style={{ marginBottom: "30px", paddingBottom: "20px" }}>
+            <h3>Regular Queue 3</h3>
+            <div>
               {queue3.length === 0 ? (
-                <span style={{ color: "#6c757d", fontStyle: "italic" }}>Queue is empty</span>
+                <span>Queue is empty</span>
               ) : (
                 displayQueue(queue3, "")
               )}
             </div>
-            
-            {/* Duration section for Queue 3 */}
-            <div style={{ marginTop: "15px" }}>
-              <h4 style={{ 
-                margin: "0 0 10px 0", 
-                color: "#495057", 
-                fontSize: "14px",
-                textAlign: "center",
-                fontWeight: "bold"
-              }}>Duration</h4>
-              <div style={{ 
-                backgroundColor: "white",
-                borderRadius: "8px",
-                border: "1px solid #dee2e6",
-                padding: "8px",
-                minHeight: "20px"
-              }}>
+            <div>
+              <h4>Duration</h4>
+              <div>
                 {queue3.length > 0 ? (
                   <SetTimeOutExample onComplete={handleQ3Complete} />
                 ) : (
-                  <div style={{ 
-                    height: "20px", 
-                    backgroundColor: "#f0f0f0", 
-                    borderRadius: "4px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "12px",
-                    color: "#666"
-                  }}>No tasks processing</div>
+                  <div>No tasks processing</div>
                 )}
               </div>
             </div>
