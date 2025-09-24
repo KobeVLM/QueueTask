@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from '@mui/material';
 import SetTimeOutExample from './components/SetTimeOutExample';
 
 export default function App() {
@@ -257,48 +258,36 @@ export default function App() {
         <div style={{ 
           flex: 1, 
           padding: "20px",
-          backgroundColor: "#ffffff",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center"
+          backgroundColor: "#ffffff"
         }}>
-          <div style={{
-            textAlign: "center",
-            padding: "40px",
-            border: "2px solid #dee2e6",
-            borderRadius: "12px",
-            backgroundColor: "#f8f9fa",
-            maxWidth: "600px"
-          }}>
-            <h1 style={{ margin: "0 0 20px 0", textAlign: "center", color: "#333" }}>Queue System Demo</h1>
+          <div>
+            <h1>Queue System Demo</h1>
             
-            <div style={{ textAlign: "center", marginBottom: "15px" }}>
-              <button onClick={handleRandom} style={{ 
-                marginRight: "15px", 
-                padding: "12px 24px", 
-                fontSize: "16px",
-                backgroundColor: "#28a745",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer"
-              }}>Add Random Task</button>
-              <button onClick={handleAddTask} style={{
-                padding: "12px 24px", 
-                fontSize: "16px",
-                backgroundColor: "#007bff",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer"
-              }}>Admit Task</button>
+            <div>
+              <Button 
+                variant="contained" 
+                color="success" 
+                onClick={handleRandom}
+                sx={{ marginRight: "15px", padding: "12px 24px", fontSize: "16px" }}
+              >
+                Add Random Task
+              </Button>
             </div>
             <div>
               <h2>Task Queue</h2>
             </div>
-            <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "500", color: "#333" }}>
+            <div>
               {displayQueue(mainQueue, "")}
+            </div>
+            <div style={{ marginTop: "20px" }}>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={handleAddTask}
+                sx={{ padding: "12px 24px", fontSize: "16px" }}
+              >
+                Admit Task
+              </Button>
             </div>
           </div>
         </div>
