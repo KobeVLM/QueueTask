@@ -12,7 +12,13 @@ export default function App() {
   // Simplified: no tokens; beginner-friendly approach.
 
   // numbers that must always go to High Priority
-  const HIGH_PRIORITY_NUMBERS = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+  // Fibonacci numbers up to 100 (for demo purposes)
+  // To get ~20% high priority numbers from 1-100, pick about 20 numbers.
+  // Choose numbers spread across the range for better distribution.
+  const HIGH_PRIORITY_NUMBERS = [
+    3, 7, 12, 16, 21, 25, 30, 34, 39, 43,
+    48, 52, 57, 61, 66, 70, 75, 79, 84, 88
+  ];
 
   // Helper function to check if a number is high priority
   function isHighPriorityNumber(number) {
@@ -151,23 +157,19 @@ export default function App() {
           backgroundColor: "#ffffff",
           borderRight: "3px solid #dee2e6",
           padding: "20px",
-          overflowY: "auto"
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh"
         }}>
-          <h2 style={{ 
-            margin: "0 0 25px 0", 
-            color: "#333", 
-            textAlign: "center",
-            fontSize: "24px",
-            borderBottom: "2px solid #dee2e6",
-            paddingBottom: "10px"
-          }}>Processing Queues</h2>
+          
           
           {/* High Priority Queue */}
-          <div style={{ marginBottom: "30px", paddingBottom: "20px", borderBottom: "1px solid #ccc" }}>
+          <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
             <h3>High Priority Queue 1</h3>
             <div>
               {highQueue.length === 0 ? (
-                <span>Queue is empty</span>
+                <span style={{fontStyle: "italic"}}>Empty</span>
               ) : (
                 displayQueue(highQueue, "")
               )}
@@ -178,18 +180,18 @@ export default function App() {
                 {highQueue.length > 0 ? (
                   <SetTimeOutExample onComplete={handleHighComplete} />
                 ) : (
-                  <div>No tasks processing</div>
+                  <div></div>
                 )}
               </div>
             </div>
           </div>
 
           {/* Queue 1 */}
-          <div style={{ marginBottom: "30px", paddingBottom: "20px", borderBottom: "1px solid #ccc" }}>
+          <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
             <h3>Regular Queue 2</h3>
             <div>
               {queue1.length === 0 ? (
-                <span>Queue is empty</span>
+                <span style={{fontStyle: "italic"}}>Empty</span>
               ) : (
                 displayQueue(queue1, "")
               )}
@@ -200,18 +202,18 @@ export default function App() {
                 {queue1.length > 0 ? (
                   <SetTimeOutExample onComplete={handleQ1Complete} />
                 ) : (
-                  <div>No tasks processing</div>
+                  <div></div>
                 )}
               </div>
             </div>
           </div>
 
           {/* Queue 2 */}
-          <div style={{ marginBottom: "30px", paddingBottom: "20px", borderBottom: "1px solid #ccc" }}>
-            <h3>Regular Queue 2</h3>
+          <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
+            <h3>Regular Queue 3</h3>
             <div>
               {queue2.length === 0 ? (
-                <span>Queue is empty</span>
+                <span style={{fontStyle: "italic"}}>Empty</span>
               ) : (
                 displayQueue(queue2, "")
               )}
@@ -222,20 +224,20 @@ export default function App() {
                 {queue2.length > 0 ? (
                   <SetTimeOutExample onComplete={handleQ2Complete} />
                 ) : (
-                  <div>No tasks processing</div>
+                  <div></div>
                 )}
               </div>
             </div>
           </div>
 
           {/* Queue 3 */}
-          <div style={{ marginBottom: "30px", paddingBottom: "20px" }}>
-            <h3>Regular Queue 3</h3>
+          <div style={{ height: "25%", display: "flex", flexDirection: "column" }}>
+            <h3>Regular Queue 4</h3>
             <div>
               {queue3.length === 0 ? (
-                <span>Queue is empty</span>
+                <span style={{fontStyle: "italic"}}>Empty</span>
               ) : (
-                displayQueue(queue3, "")
+                displayQueue(queue3, " ")
               )}
             </div>
             <div>
@@ -244,7 +246,7 @@ export default function App() {
                 {queue3.length > 0 ? (
                   <SetTimeOutExample onComplete={handleQ3Complete} />
                 ) : (
-                  <div>No tasks processing</div>
+                  <div></div>
                 )}
               </div>
             </div>
@@ -293,7 +295,7 @@ export default function App() {
               }}>Admit Task</button>
             </div>
             <div>
-              <h2>Main Queue</h2>
+              <h2>Task Queue</h2>
             </div>
             <div style={{ textAlign: "center", fontSize: "18px", fontWeight: "500", color: "#333" }}>
               {displayQueue(mainQueue, "")}
