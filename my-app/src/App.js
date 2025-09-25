@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button } from '@mui/material';
 import SetTimeOutExample from './components/SetTimeOutExample';
+import HighPriorityQueues from './components/HighPriorityQueues';
+import RegularQueues from './components/RegularQueues';
 
 export default function App() {
   const [mainQueue, setMainQueue] = useState([]);
-  const [queue1, setQueue1] = useState([]);
-  const [queue2, setQueue2] = useState([]);
-  const [queue3, setQueue3] = useState([]);
-  const [highQueue, setHighQueue] = useState([]);
+  const [highPriorityQueues, setHighPriorityQueues] = useState([[], []]); // high priority queues
+  const [regularQueues, setRegularQueues] = useState([[], [], []]); // regular queues
 
   const HIGH_PRIORITY_NUMBERS = [
     3, 7, 12, 16, 21, 25, 30, 34, 39, 43,
@@ -27,7 +27,7 @@ export default function App() {
     if (queue.length === 0) {
       return queueName + "";
     }
-
+    
     const numbersDisplay = [];
     for (let i = 0; i < queue.length; i++) {
       const number = queue[i];
@@ -35,7 +35,7 @@ export default function App() {
         numbersDisplay.push(
           <span style={{ color: "red", fontWeight: "bold" }}>
             {number}
-          </span>
+          </span> 
         );
       } else {
         numbersDisplay.push(<span>{number}</span>);
@@ -66,57 +66,57 @@ export default function App() {
     const newMainQueue = mainQueue.slice(1);
     setMainQueue(newMainQueue);
 
-    let isHighPriority = false;
-    for (let i = 0; i < HIGH_PRIORITY_NUMBERS.length; i++) {
-      if (HIGH_PRIORITY_NUMBERS[i] === firstNumber) {
-        isHighPriority = true;
-        break;
-      }
-    }
-
     if (isHighPriorityNumber(firstNumber)) {
-      const newHighQueue = highQueue.slice();
-      newHighQueue.push(firstNumber);
-      setHighQueue(newHighQueue);
+      // Find the shortest high priority queue
+      let shortestHighIndex = 0;
+      let shortestHighLength = highPriorityQueues[0].length;
+      
+      for (let i = 1; i < highPriorityQueues.length; i++) {
+        if (highPriorityQueues[i].length < shortestHighLength) {
+          shortestHighIndex = i;
+          shortestHighLength = highPriorityQueues[i].length;
+        }
+      }
+      
+      // Add to the shortest high priority queue
+      const newHighQueues = [...highPriorityQueues];
+      newHighQueues[shortestHighIndex] = [...newHighQueues[shortestHighIndex], firstNumber];
+      setHighPriorityQueues(newHighQueues);
     } else {
-      let shortest = 1;
-      if (queue2.length < queue1.length) {
-        shortest = 2;
+      // Find the shortest regular queue
+      let shortestRegularIndex = 0;
+      let shortestRegularLength = regularQueues[0].length;
+      
+      for (let i = 1; i < regularQueues.length; i++) {
+        if (regularQueues[i].length < shortestRegularLength) {
+          shortestRegularIndex = i;
+          shortestRegularLength = regularQueues[i].length;
+        }
       }
-      if (queue3.length < queue1.length && queue3.length < queue2.length) {
-        shortest = 3;
-      }
-
-      if (shortest === 1) {
-        const newQueue1 = queue1.slice();
-        newQueue1.push(firstNumber);
-        setQueue1(newQueue1);
-      } else if (shortest === 2) {
-        const newQueue2 = queue2.slice();
-        newQueue2.push(firstNumber);
-        setQueue2(newQueue2);
-      } else {
-        const newQueue3 = queue3.slice();
-        newQueue3.push(firstNumber);
-        setQueue3(newQueue3);
-      }
+      
+      // Add to the shortest regular queue
+      const newRegularQueues = [...regularQueues];
+      newRegularQueues[shortestRegularIndex] = [...newRegularQueues[shortestRegularIndex], firstNumber];
+      setRegularQueues(newRegularQueues);
     }
   }
 
-  const handleHighComplete = () => {
-    setHighQueue(prev => prev.slice(1));
+  // Complete Handler for High Priority Queues
+  const handleHighComplete = (queueIndex) => {
+    setHighPriorityQueues(prev => {
+      const newQueues = [...prev];
+      newQueues[queueIndex] = newQueues[queueIndex].slice(1);
+      return newQueues;
+    });
   };
 
-  const handleQ1Complete = () => {
-    setQueue1(prev => prev.slice(1));
-  };
-
-  const handleQ2Complete = () => {
-    setQueue2(prev => prev.slice(1));
-  };
-
-  const handleQ3Complete = () => {
-    setQueue3(prev => prev.slice(1));
+  // Complete Handler for Regular Queues
+  const handleRegularComplete = (queueIndex) => {
+    setRegularQueues(prev => {
+      const newQueues = [...prev];
+      newQueues[queueIndex] = newQueues[queueIndex].slice(1);
+      return newQueues;
+    });
   };
 
   return (
@@ -138,89 +138,19 @@ export default function App() {
           flexDirection: "column",
           height: "100vh"
         }}>
-          <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
-            <h3>High Priority Queue 1</h3>
-            <div>
-              {highQueue.length === 0 ? (
-                <span style={{fontStyle: "italic"}}>Empty</span>
-              ) : (
-                displayQueue(highQueue, "")
-              )}
-            </div>
-            <div>
-              <h4>Duration</h4>
-              <div>
-                {highQueue.length > 0 ? (
-                  <SetTimeOutExample onComplete={handleHighComplete} />
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-          </div>
+          {/* High Priority Queues */}
+          <HighPriorityQueues 
+            queues={highPriorityQueues}
+            onComplete={handleHighComplete}
+            displayQueue={displayQueue}
+          />
 
-          <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
-            <h3>Regular Queue 2</h3>
-            <div>
-              {queue1.length === 0 ? (
-                <span style={{fontStyle: "italic"}}>Empty</span>
-              ) : (
-                displayQueue(queue1, "")
-              )}
-            </div>
-            <div>
-              <h4>Duration</h4>
-              <div>
-                {queue1.length > 0 ? (
-                  <SetTimeOutExample onComplete={handleQ1Complete} />
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div style={{ height: "25%", borderBottom: "4px solid #000000ff", display: "flex", flexDirection: "column" }}>
-            <h3>Regular Queue 3</h3>
-            <div>
-              {queue2.length === 0 ? (
-                <span style={{fontStyle: "italic"}}>Empty</span>
-              ) : (
-                displayQueue(queue2, "")
-              )}
-            </div>
-            <div>
-              <h4>Duration</h4>
-              <div>
-                {queue2.length > 0 ? (
-                  <SetTimeOutExample onComplete={handleQ2Complete} />
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div style={{ height: "25%", display: "flex", flexDirection: "column" }}>
-            <h3>Regular Queue 4</h3>
-            <div>
-              {queue3.length === 0 ? (
-                <span style={{fontStyle: "italic"}}>Empty</span>
-              ) : (
-                displayQueue(queue3, " ")
-              )}
-            </div>
-            <div>
-              <h4>Duration</h4>
-              <div>
-                {queue3.length > 0 ? (
-                  <SetTimeOutExample onComplete={handleQ3Complete} />
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-          </div>
+          {/* Regular Queues */}
+          <RegularQueues 
+            queues={regularQueues}
+            onComplete={handleRegularComplete}
+            displayQueue={displayQueue}
+          />
         </div>
 
         <div style={{
